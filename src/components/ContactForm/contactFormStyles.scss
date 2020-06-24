@@ -1,0 +1,58 @@
+.contactForm {
+  margin: 0 0 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  border: 1px solid #cccccc;
+  width: 800px;
+  height: 400px;
+  box-shadow: 3px 3px 3px rgba(44, 43, 43, 0.5);
+
+  &Input {
+    padding-left: 20px;
+    font-size: 18px;
+    font-family: Tahoma;
+    border: 2px solid #cccccc;
+    border-radius: 5px;
+    width: 600px;
+    height: 52px;
+    outline: none;
+    &:focus {
+      border: 5px solid #39c;
+    }
+  }
+
+  &Button {
+    width: 600px;
+    height: 52px;
+  }
+}
+
+label {
+  display: block;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.contactInputHolder {
+  margin: 0 auto;
+}
+
+.contactFormButton {
+  color: #ffffff;
+  border: solid 1px transparent;
+  box-shadow: 0 -2px rgba(30, 55, 85, 0.5) inset;
+  font-size: 20px;
+  background-color: #3878cc;
+  outline: none;
+  &:hover {
+    background-color: hsl(214, 77%, 46%);
+  }
+  &:active {
+    transform: translateY(2px);
+  }
+  &Holder {
+    margin: 0 auto;
+  }
+}

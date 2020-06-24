@@ -1,0 +1,40 @@
+.contactList {
+display: flex;
+flex-direction: column;
+margin: 0;
+padding: 0;
+  &Item {
+    margin: 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 800px;
+    height: 100px;
+    list-style: none;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    box-shadow: 3px 3px 3px rgba(44, 43, 43, 0.5);
+  }
+
+  &Field {
+      font-size: 28px;
+      font-weight: 600;
+      width: 250px;
+  }
+}
+
+.material-icons {
+  width: 50px;
+  height: 50px;
+  font-family: "Material Icons";
+  background-color: red;
+  color: whitesmoke;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  font-size: 40px;
+  &:active {
+    transform: translateY(2px);
+  }
+}
+

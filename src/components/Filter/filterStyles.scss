@@ -1,0 +1,33 @@
+.contactsFilter {
+  margin: 0;
+  
+  margin-bottom: 30px;
+  width: 800px;
+  height: 120px;
+  border: 1px solid #cccccc;
+  box-shadow: 3px 3px 3px rgba(44, 43, 43, 0.5);
+
+  &Box {
+    margin: 0 auto;
+    width: 600px;
+  }
+
+  &Label {
+    display: block;
+    margin-top: 15px;
+  }
+
+  &Input {
+    padding-left: 20px;
+    font-size: 18px;
+    font-family: Tahoma;
+    border: 2px solid #cccccc;
+    border-radius: 5px;
+    width: 600px;
+    height: 52px;
+    outline: none;
+    &:focus {
+      border: 5px solid #39c;
+    }
+  }
+}
