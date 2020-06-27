@@ -99,7 +99,7 @@ export default class App extends Component {
         {contacts.length > 0 && (
           <ContactList
             onHandleDeleteContact={this.handleDeleteContact}
-            FilteredContacts={filteredContacts}
+            filteredContacts={filteredContacts}
           />
         )}
       </>

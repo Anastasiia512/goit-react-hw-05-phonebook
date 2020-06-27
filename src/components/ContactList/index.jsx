@@ -4,9 +4,9 @@ import "./contactListStyles.scss";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import appTransitions from "../../transitions/appTransition.module.css";
 
-const ContactList = ({ onHandleDeleteContact, FilteredContacts }) => (
+const ContactList = ({ onHandleDeleteContact, filteredContacts }) => (
   <TransitionGroup component="ul" className="contactList">
-    {FilteredContacts.map((contact) => (
+    {filteredContacts.map((contact) => (
       <CSSTransition
         key={contact.id}
         classNames={appTransitions}
@@ -31,7 +31,7 @@ const ContactList = ({ onHandleDeleteContact, FilteredContacts }) => (
 
 ContactList.propTypes = {
   onHandleDeleteContact: propTypes.func.isRequired,
-  onFilteredContacts: propTypes.arrayOf(
+  filteredContacts: propTypes.arrayOf(
     propTypes.shape({
       id: propTypes.string.isRequired,
       name: propTypes.string.isRequired,

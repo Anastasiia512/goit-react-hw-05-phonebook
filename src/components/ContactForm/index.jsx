@@ -1,25 +1,15 @@
 import React, { Component } from "react";
 import propTypes from "prop-types";
-import { error, Stack } from "@pnotify/core";
-import "@pnotify/core/dist/BrightTheme.css";
-import "@pnotify/core/dist/Material.css";
+import ContactNotice from "../ContactNotice/ContactNotice.jsx";
+import { CSSTransition } from "react-transition-group";
+import contactNoticeTransition from "../../transitions/contactNoticeTransition.module.css";
 import "./contactFormStyles.scss";
-
-const defaultStack = new Stack({
-  dir1: "top",
-  dir2: "right",
-  firstpos1: 25,
-  firstpos2: 25,
-  spacing1: 30,
-  spacing2: 30,
-  push: "buttom",
-  context: document.body,
-});
 
 export default class ContactForm extends Component {
   state = {
     name: "",
     number: "",
+    isWarning: false,
   };
 
   static propTypes = {
@@ -41,60 +31,65 @@ export default class ContactForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const prevValue = this.props.contacts.find(
-      (contact) => contact.name === this.state.name
+      (contact) => contact.number === this.state.number
     );
-    if (!prevValue) {
-      this.props.contactToAdd({ ...this.state });
+    if (prevValue) {
+      this.setState({ isWarning: true });
+      setTimeout(() => this.setState({ isWarning: false }), 2000);
       this.handleClearState();
       return;
     }
-    error({
-      text: `${this.state.name} is already in contacts`,
-      type: "error",
-      styling: "brighttheme",
-      icons: "brighttheme",
-      animateSpeed: "normal",
-      hide: true,
-      delay: 3000,
-      stack: defaultStack,
-    });
+    this.props.contactToAdd({ ...this.state });
     this.handleClearState();
   };
 
   render() {
-    const { name, number } = this.state;
+    const { name, number, isWarning } = this.state;
+
     return (
-      <form className="contactForm" onSubmit={this.handleSubmit}>
-        <div className="contactInputHolder">
-          <label>Name</label>
-          <input
-            className="contactFormInput"
-            type="text"
-            required
-            name="name"
-            id="name"
-            value={name}
-            onChange={this.handleChange}
-          />
-        </div>
-        <div className="contactInputHolder">
-          <label>Number</label>
-          <input
-            className="contactFormInput"
-            type="number"
-            name="number"
-            id="number"
-            required
-            value={number}
-            onChange={this.handleChange}
-          />
-        </div>
-        <div className="contactFormButtonHolder">
-          <button className="contactFormButton" type="submit">
-            Add contact
-          </button>
-        </div>
-      </form>
+      <>
+        {isWarning && (
+          <CSSTransition
+            in={isWarning}
+            classNames={contactNoticeTransition}
+            timeout={500}
+            unmountOnExit
+          >
+            <ContactNotice isWarning={isWarning} />
+          </CSSTransition>
+        )}
+        <form className="contactForm" onSubmit={this.handleSubmit}>
+          <div className="contactInputHolder">
+            <label>Name</label>
+            <input
+              className="contactFormInput"
+              type="text"
+              required
+              name="name"
+              id="name"
+              value={name}
+              onChange={this.handleChange}
+            />
+          </div>
+          <div className="contactInputHolder">
+            <label>Number</label>
+            <input
+              className="contactFormInput"
+              type="number"
+              name="number"
+              id="number"
+              required
+              value={number}
+              onChange={this.handleChange}
+            />
+          </div>
+          <div className="contactFormButtonHolder">
+            <button className="contactFormButton" type="submit">
+              Add contact
+            </button>
+          </div>
+        </form>
+      </>
     );
   }
 }
