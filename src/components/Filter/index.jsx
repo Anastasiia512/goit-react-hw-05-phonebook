@@ -1,8 +1,16 @@
 import React from "react";
 import propTypes from "prop-types";
+import {CSSTransition} from 'react-transition-group';
+import filterTransition from '../../transitions/filterTransition.module.css';
 import './filterStyles.scss';
 
-const Filter = ({ filterValue, onChangeFilter }) => (
+const Filter = ({ filterValue, onChangeFilter, contactList }) => (
+  <CSSTransition
+  in={contactList.length >= 2}
+  timeout={250}
+  unmountOnExit
+  classNames={filterTransition}
+>
  <div className= 'contactsFilter'>
  <div className='contactsFilterBox'>
  <label className='contactsFilterLabel'>
@@ -18,6 +26,7 @@ const Filter = ({ filterValue, onChangeFilter }) => (
     />
     </div>
   </div>
+  </CSSTransition>
 );
 
 Filter.propTypes = {

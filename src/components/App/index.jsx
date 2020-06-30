@@ -6,6 +6,8 @@ import ContactList from "../ContactList/index";
 import { v4 } from "uuid";
 import css from "./appStyles.module.css";
 import { CSSTransition } from "react-transition-group";
+import ContactNotice from "../ContactNotice/ContactNotice";
+import contactNoticeTransition from "../../transitions/contactNoticeTransition.module.css";
 import appTransitions from "../../transitions/appTransition.module.css";
 
 const filterContacts = (contacts, filter) => {
@@ -38,6 +40,7 @@ export default class App extends Component {
     contacts: [],
     filter: "",
     isOpen: false,
+    isWarning: false,
   };
 
   componentDidMount() {
@@ -56,15 +59,23 @@ export default class App extends Component {
   }
 
   toAddContact = (state) => {
-    const contactToAdd = {
-      ...state,
-      id: v4(),
-    };
-    this.setState((prevState) => ({
-      contacts: [...prevState.contacts, contactToAdd],
-    }));
-  };
+    const isExist = this.state.contacts.find(
+      (contact) => contact.number === state.number
+    );
+    if (!isExist) {
+      const contactToAdd = {
+        ...state,
+        id: v4(),
+      };
 
+      this.setState((prevState) => ({
+        contacts: [...prevState.contacts, contactToAdd],
+      }));
+    } else {
+      this.setState({ isWarning: true });
+      setTimeout(() => this.setState({ isWarning: false }), 2000);
+    }
+  };
   changeFilter = ({ target: { value } }) => {
     this.setState({ filter: value });
   };
@@ -76,10 +87,18 @@ export default class App extends Component {
   };
 
   render() {
-    const { contacts, filter, isOpen } = this.state;
+    const { contacts, filter, isOpen, isWarning } = this.state;
     const filteredContacts = filterContacts(contacts, filter);
     return (
       <>
+        <CSSTransition
+          in={isWarning}
+          classNames={contactNoticeTransition}
+          timeout={300}
+          unmountOnExit
+        >
+          <ContactNotice isWarning={isWarning} />
+        </CSSTransition>
         <CSSTransition
           in={isOpen}
           classNames={appTransitions}
@@ -90,11 +109,11 @@ export default class App extends Component {
         </CSSTransition>
         <ContactForm contacts={contacts} contactToAdd={this.toAddContact} />
 
-       { !!contacts.length && <Filter
+        <Filter
           filterValue={filter}
           contactList={contacts}
           onChangeFilter={this.changeFilter}
-        />}
+        />
 
         {contacts.length > 0 && (
           <ContactList
